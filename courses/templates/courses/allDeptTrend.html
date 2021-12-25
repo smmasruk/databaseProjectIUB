@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script>
+	
+
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "All Department Trend"
+	},
+
+	legend:{
+		cursor: "pointer",
+		fontSize: 16,
+		itemclick: toggleDataSeries
+	},
+	toolTip:{
+		shared: true
+	},
+	axisX: {
+		labelFontSize: 10,
+	},
+	data: [
+	{% for dept, dataPoint in data.items %}
+		{
+			name: "{{ dept }}",
+			type: "line",
+			showInLegend: true,
+			dataPoints: [
+    			{% for sem, credits in dataPoint.items %}
+        			{label:  "{{ sem }}", y: {{ credits }} },
+    			{% endfor %}
+			]
+		},
+	{% endfor %}
+
+	]
+});
+chart.render();
+
+function toggleDataSeries(e){
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else{
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+}
+</script>
+</head>
+<body>
+
+<div id="chartContainer" style="height: 550px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

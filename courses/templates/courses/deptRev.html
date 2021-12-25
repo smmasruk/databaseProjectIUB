@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script>
+	// console.log(counter_dict);
+	const dataPoint1 = [
+    {% for sem, credits in counter_dict.items %}
+        {label:  "{{ sem }}", y: {{ credits }} },
+    {% endfor %}
+	];
+	const dataPoint2 = [
+	{% for sem, change in percentChange.items %}
+		{label: "{{ sem }}", y: {{ change }} },
+	{% endfor %}
+	];
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "{{ dept }} revenue and % change"
+	},
+
+	legend:{
+		cursor: "pointer",
+		fontSize: 16,
+		itemclick: toggleDataSeries
+	},
+	toolTip:{
+		shared: true
+	},
+	data: [{
+		name: "{{ dept }}",
+		type: "line",
+		showInLegend: true,
+		dataPoints: dataPoint1
+		
+	},
+	{
+		name: "{{ dept }}%",
+		type: "column",  
+		axisYType: "secondary",
+		// yValueFormatString: "#0.## °C",
+		showInLegend: true,
+		dataPoints: dataPoint2
+	},
+	]
+});
+chart.render();
+
+function toggleDataSeries(e){
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else{
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+}
+</script>
+</head>
+<body>
+
+<div id="chartContainer" style="height: 550px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

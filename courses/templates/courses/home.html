@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<h2>Classroom Requirement Summary</h2>
+	select your department:
+	<ul>
+		<a href="{% url 'deptchar' 'CSE' %}">CSE</a>
+		<a href="{% url 'deptchar' 'EEE' %}">EEE</a>
+		<a href="{% url 'deptchar' 'PhySci' %}">PhySci</a>
+	</ul>
+	select you school:
+	<ul>
+		<a href="{% url 'schoolchar' 'SBE' %}">SBE</a>
+		<a href="{% url 'schoolchar' 'SLASS' %}">SLASS</a>
+		<a href="{% url 'schoolchar' 'SETS' %}">SETS</a>
+		<a href="{% url 'schoolchar' 'SELS' %}">SELS</a>
+		<a href="{% url 'schoolchar' 'SPPH' %}">SPPH</a>
+
+	</ul>
+	<a href="{% url 'revTrendschl' %}">Revenue trend of schools</a>
+	<br>
+	<a href="{% url 'revTrenddept' %}">Revenue trend for departments</a>
+	<br>
+	<a href="{% url 'revIub' %}">Revenue trend for IUB</a>
+	<br>
+	<a href="{% url 'revAmongSchools' %}">Revenue Distribution among Schools</a>
+	<br>
+
+	<a href="{% url 'revOfSets' %}">Revenue of SETS</a>
+	<br>
+	select the semester to see class size distribution:
+	<br>
+	{% for j in nums %}
+	{% for i in seasons %}
+		<a href="{% url 'classDist' i j %}">{{i}}{{j}}</a>
+	{% endfor %}
+	{% endfor %}
+	<br>
+	<br>
+	For Pie Chart:
+	{% for j in nums %}
+	{% for i in seasons %}
+		<a href="{% url 'pieChart' i j %}">{{i}}{{j}}</a>
+	{% endfor %}
+	{% endfor %}
+
+</body>
+</html>

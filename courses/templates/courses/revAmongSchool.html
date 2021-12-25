@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+colors = Array('rgba(254, 0,0, .5)', 'rgba(0, 254, 0, 0.5)', 'rgba(120, 120, 0, 0.5)', 'rgba(120, 0, 120, 0.5)', 'rgba(0, 120, 120, 0.5)');
+window.onload = function () {
+var color = Array('red', 'orange', 'yellow', 'blue')
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "Daily Email Analysis"
+	},
+	// axisX: {
+	// 	valueFormatString: "DDD",
+	// 	minimum: new Date(2017, 1, 5, 23),
+	// 	maximum: new Date(2017, 1, 12, 1)
+	// },
+	// axisY: {
+	// 	title: "Number of Messages"
+	// },
+	legend: {
+		verticalAlign: "top",
+		horizontalAlign: "right",
+		dockInsidePlotArea: true
+	},
+	toolTip: {
+		shared: true
+	},
+	data: [
+	{% for school, dataPoint in data.items %}
+		{
+			name: "{{ school }}",
+			legendMarkerType: "square",
+			type: "area",
+			r: Math.random() * 254,
+			g: Math.random() * 10,
+			b: Math.random() * 190,
+			a: Math.random(),
+			color: colors[Math.floor(Math.random()*colors.length)],
+			showInLegend: true,
+			markerSize: 0,
+			dataPoints: [
+    			{% for sem, credits in dataPoint.items %}
+        			{label:  "{{ sem }}", y: {{ credits }} },
+    			{% endfor %}
+			]
+		},
+	{% endfor %}
+	]
+});
+chart.render();
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
